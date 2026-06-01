@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>BetTrack</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+
+  <!-- Chart.js via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<!-- ── Loading splash ─────────────────────────────────────── -->
+<div id="app-loading">
+  <div class="spinner"></div>
+</div>
+
+<!-- ── App shell ──────────────────────────────────────────── -->
+<div id="app" class="app--loading">
+
+  <!-- ── Screen container ─────────────────────────────────── -->
+  <div class="screen-container">
+
+    <!-- ══════════════════════════════════════════════════════
+         DASHBOARD SCREEN
+         ══════════════════════════════════════════════════════ -->
+    <section class="screen" data-screen="dashboard">
+
+      <!-- Header -->
+      <div class="screen-header">
+        <button class="bankroll-selector" id="bankroll-selector" aria-label="Switch bankroll">
+          <span class="bankroll-selector__name">Loading…</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-tertiary)">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Body -->
+      <div class="screen-body">
+
+        <!-- No bankroll prompt -->
+        <div id="dashboard-no-bankroll" class="no-bankroll-prompt" style="display:none">
+          <div style="font-size:48px">💰</div>
+          <div class="no-bankroll-prompt__title">No Bankroll Yet</div>
+          <div class="no-bankroll-prompt__sub">Create a bankroll to start tracking your bets</div>
+          <button class="btn btn--primary" id="dash-create-bankroll-btn">
+            Create Bankroll
+          </button>
+        </div>
+
+        <!-- Dashboard content -->
+        <div id="dashboard-content">
+
+          <!-- Primary bankroll card -->
+          <div class="screen-section">
+            <div class="bankroll-card">
+              <div class="bankroll-card__label">CURRENT BANKROLL</div>
+              <div class="bankroll-card__value tabular-nums" id="dash-bankroll-value">—</div>
+              <div class="bankroll-card__meta">
+                <span class="bankroll-card__profit" id="dash-bankroll-profit">—</span>
+                <span style="color:var(--text-tertiary); font-size:13px" id="dash-bankroll-initial"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stat grid — row 1 -->
+          <div class="screen-section">
+            <div class="stat-grid">
+              <div class="stat-card">
+                <div class="stat-card__label">Win Rate</div>
+                <div class="stat-card__value" id="dash-win-rate">—</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-card__label">Pending</div>
+                <div class="stat-card__value stat-card__value--accent" id="dash-pending">0</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-card__label">Active Stake</div>
+                <div class="stat-card__value tabular-nums" id="dash-active-stake">—</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-card__label">Today</div>
+                <div class="stat-card__value tabular-nums" id="dash-profit-today">—</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Weekly profit — full width -->
+          <div style="padding: 0 16px">
+            <div class="stat-card" style="margin-top:8px">
+              <div class="stat-card__label">This Week</div>
+              <div class="stat-card__value tabular-nums" id="dash-profit-week">—</div>
+            </div>
+          </div>
+
+          <!-- Recent bets -->
+          <div class="recent-bets-header">
+            <span class="recent-bets-title">RECENT BETS</span>
+          </div>
+          <div class="recent-bets-list" id="recent-bets-list"></div>
+
+        </div><!-- /dashboard-content -->
+      </div><!-- /screen-body -->
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════
+         HISTORY SCREEN
+         ══════════════════════════════════════════════════════ -->
+    <section class="screen" data-screen="history">
+
+      <!-- Header -->
+      <div class="screen-header">
+        <span class="screen-title">History</span>
+        <span class="text-sm text-secondary" id="history-count"></span>
+      </div>
+
+      <!-- Filter bar -->
+      <div id="history-filter-bar">
+        <!-- Status chips -->
+        <div class="filter-bar" id="status-chips"></div>
+
+        <!-- Date range -->
+        <div style="display:flex; align-items:center; gap:8px; padding:0 16px 12px;">
+          <input class="form-input" id="history-date-from" type="date"
+                 style="flex:1; font-size:13px; padding:8px 10px; min-height:36px;"
+                 placeholder="From" />
+          <span style="color:var(--text-tertiary); font-size:13px">–</span>
+          <input class="form-input" id="history-date-to" type="date"
+                 style="flex:1; font-size:13px; padding:8px 10px; min-height:36px;"
+                 placeholder="To" />
+          <button class="btn btn--ghost btn--sm" id="clear-date-filter"
+                  style="padding:8px; min-height:36px; color:var(--text-tertiary)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Bet list -->
+      <div class="screen-body screen-body--no-fab" style="padding-top:0">
+        <div style="display:flex; flex-direction:column; gap:6px; padding:0 16px 16px;">
+          <div id="history-list"></div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════
+         STATISTICS SCREEN
+         ══════════════════════════════════════════════════════ -->
+    <section class="screen" data-screen="statistics">
+
+      <!-- Header -->
+      <div class="screen-header">
+        <span class="screen-title">Statistics</span>
+      </div>
+
+      <div class="screen-body screen-body--no-fab">
+
+        <!-- No bankroll prompt -->
+        <div id="stats-no-bankroll" class="no-bankroll-prompt" style="display:none">
+          <div style="font-size:48px">📊</div>
+          <div class="no-bankroll-prompt__title">No Data Yet</div>
+          <div class="no-bankroll-prompt__sub">Create a bankroll and add bets to see statistics</div>
+        </div>
+
+        <div id="stats-content">
+
+          <!-- Summary metric grid -->
+          <div class="screen-section">
+            <div class="stat-grid" style="grid-template-columns:1fr 1fr 1fr">
+              <div class="stat-card">
+                <div class="stat-card__label">Total Bets</div>
+                <div class="stat-card__value" id="stats-total-bets">0</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-card__label">Win Rate</div>
+                <div class="stat-card__value" id="stats-win-rate">—</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-card__label">Total P&amp;L</div>
+                <div class="stat-card__value tabular-nums" id="stats-total-profit">—</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-card__label">Settled</div>
+                <div class="stat-card__value" id="stats-settled">0</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-card__label">Avg Odds</div>
+                <div class="stat-card__value" id="stats-avg-odds">—</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-card__label">Pending</div>
+                <div class="stat-card__value stat-card__value--accent" id="stats-pending">0</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Best / Worst -->
+          <div style="padding:8px 16px 0; display:grid; grid-template-columns:1fr 1fr; gap:8px">
+            <div class="stat-card">
+              <div class="stat-card__label">Best Win</div>
+              <div class="stat-card__value stat-card__value--win tabular-nums" id="stats-best-win">—</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card__label">Worst Loss</div>
+              <div class="stat-card__value stat-card__value--loss tabular-nums" id="stats-worst-loss">—</div>
+            </div>
+          </div>
+
+          <!-- Bankroll trend chart -->
+          <div class="screen-section">
+            <div class="chart-container">
+              <div class="chart-header">
+                <span class="chart-title">BANKROLL TREND</span>
+              </div>
+              <div class="chart-canvas-wrapper">
+                <canvas id="bankroll-chart"></canvas>
+                <div id="bankroll-chart-empty" class="empty-state" style="display:none; padding:24px">
+                  <div class="empty-state__subtitle">Add bets to see your bankroll trend</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Monthly profit chart -->
+          <div class="screen-section" style="padding-bottom:24px">
+            <div class="chart-container">
+              <div class="chart-header">
+                <span class="chart-title">MONTHLY PROFIT</span>
+              </div>
+              <div class="chart-canvas-wrapper">
+                <canvas id="monthly-chart"></canvas>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /stats-content -->
+      </div><!-- /screen-body -->
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════
+         SETTINGS SCREEN
+         ══════════════════════════════════════════════════════ -->
+    <section class="screen" data-screen="settings">
+
+      <!-- Header -->
+      <div class="screen-header">
+        <span class="screen-title">Settings</span>
+      </div>
+
+      <div class="screen-body screen-body--no-fab">
+
+        <!-- Theme -->
+        <div class="settings-section">
+          <div class="settings-section-title">Appearance</div>
+          <div class="settings-list">
+            <div class="settings-item" style="flex-direction:column; align-items:stretch; gap:10px">
+              <span class="settings-item__label">Theme</span>
+              <div class="segment-control" id="theme-segment">
+                <button class="segment-option" data-theme="dark">Dark</button>
+                <button class="segment-option" data-theme="light">Light</button>
+                <button class="segment-option" data-theme="system">System</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bankrolls -->
+        <div class="settings-section">
+          <div class="settings-section-title">Bankrolls</div>
+          <div class="settings-list">
+            <div class="settings-item" id="settings-manage-bankrolls">
+              <span class="settings-item__label">Manage Bankrolls</span>
+              <svg class="settings-item__chevron" viewBox="0 0 24 24">
+                <polyline points="9 18 15 12 9 6"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- About -->
+        <div class="settings-section">
+          <div class="settings-section-title">About</div>
+          <div class="settings-list">
+            <div class="settings-item" style="cursor:default">
+              <span class="settings-item__label">BetTrack</span>
+              <span class="settings-item__value">v1.0.0</span>
+            </div>
+            <div class="settings-item" style="cursor:default; border-top:1px solid var(--border)">
+              <span class="settings-item__label" style="font-size:13px; color:var(--text-secondary)">
+                Personal offline betting analytics. All data stays on your device.
+              </span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </div><!-- /screen-container -->
+
+  <!-- ── Bottom Navigation ───────────────────────────────────── -->
+  <nav class="bottom-nav" role="navigation" aria-label="Main navigation">
+    <button class="nav-item" data-tab="dashboard" aria-label="Dashboard">
+      <div class="nav-icon">
+        <svg viewBox="0 0 24 24">
+          <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+          <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+        </svg>
+      </div>
+      <span class="nav-label">Dashboard</span>
+    </button>
+    <button class="nav-item" data-tab="history" aria-label="History">
+      <div class="nav-icon">
+        <svg viewBox="0 0 24 24">
+          <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/>
+          <rect x="9" y="3" width="6" height="4" rx="1"/>
+          <line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/>
+        </svg>
+      </div>
+      <span class="nav-label">History</span>
+    </button>
+    <button class="nav-item" data-tab="statistics" aria-label="Statistics">
+      <div class="nav-icon">
+        <svg viewBox="0 0 24 24">
+          <line x1="18" y1="20" x2="18" y2="10"/>
+          <line x1="12" y1="20" x2="12" y2="4"/>
+          <line x1="6" y1="20" x2="6" y2="14"/>
+        </svg>
+      </div>
+      <span class="nav-label">Statistics</span>
+    </button>
+    <button class="nav-item" data-tab="settings" aria-label="Settings">
+      <div class="nav-icon">
+        <svg viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
+        </svg>
+      </div>
+      <span class="nav-label">Settings</span>
+    </button>
+  </nav>
+
+</div><!-- /app -->
+
+<!-- ── Floating Action Button ──────────────────────────────── -->
+<button id="fab" aria-label="Add bet">
+  <svg viewBox="0 0 24 24">
+    <line x1="12" y1="5" x2="12" y2="19"/>
+    <line x1="5" y1="12" x2="19" y2="12"/>
+  </svg>
+</button>
+
+<!-- ── Modal overlay ───────────────────────────────────────── -->
+<div id="modal-overlay" class="modal-overlay" role="dialog" aria-modal="true">
+  <div id="modal-sheet" class="modal-sheet">
+    <!-- Content injected dynamically by modal components -->
+  </div>
+</div>
+
+<!-- ── Toast container ─────────────────────────────────────── -->
+<div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+<!-- ── App entry point (ES modules) ────────────────────────── -->
+<script type="module" src="js/app.js"></script>
+
+<!-- Settings + Dashboard shortcut wiring (plain script, runs after module) -->
+<script>
+  // These listeners delegate to the bankroll-selector button which is
+  // initialized by BankrollSelector.js via the main app.js module.
+  // Using DOMContentLoaded ensures the elements exist.
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('settings-manage-bankrolls')
+      ?.addEventListener('click', () => {
+        document.getElementById('bankroll-selector')?.click();
+      });
+
+    document.getElementById('dash-create-bankroll-btn')
+      ?.addEventListener('click', () => {
+        document.getElementById('bankroll-selector')?.click();
+      });
+  });
+</script>
+
+</body>
+</html>

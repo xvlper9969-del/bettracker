@@ -1,0 +1,17 @@
+
+# Dependencies
+node_modules/
+
+# Capacitor generated Android platform (rebuilt by CI)
+android/
+
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*

@@ -1,0 +1,20 @@
+{
+  "name": "bettrack",
+  "version": "1.0.0",
+  "description": "Personal offline betting analytics and bankroll management",
+  "private": true,
+  "scripts": {
+    "cap:add":   "npx cap add android",
+    "cap:sync":  "npx cap sync android",
+    "cap:open":  "npx cap open android",
+    "cap:run":   "npx cap run android",
+    "cap:build": "npx cap sync android && npx cap build android"
+  },
+  "dependencies": {
+    "@capacitor/android": "6.1.2",
+    "@capacitor/core": "6.1.2"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "6.1.2"
+  }
+}
