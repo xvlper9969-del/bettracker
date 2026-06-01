@@ -31,6 +31,14 @@ jobs:
       - name: Install npm dependencies
         run: npm install
 
+      - name: Create icon assets
+        run: |
+          mkdir -p assets
+          cp file_00000000ec2c71f4a98730bde0049ef5.png assets/icon.png
+
+      - name: Generate App Icons
+        run: npx capacitor-assets generate
+
       - name: Prepare web assets
         run: |
           mkdir -p www
