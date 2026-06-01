@@ -7,7 +7,7 @@
 
 import Database, { STORES } from './Database.js';
 
-const { promisify } = Database;
+const promisify = Database.constructor.promisify;
 
 const BankrollStore = {
   /**
