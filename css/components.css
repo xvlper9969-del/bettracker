@@ -1,0 +1,1070 @@
+/* ============================================================
+   components.css — All reusable UI components
+   ============================================================ */
+
+/* ── Cards ───────────────────────────────────────────────── */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+.card--interactive {
+  transition: background var(--transition), border-color var(--transition);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.card--interactive:active {
+  background: var(--bg-card-hover);
+  border-color: var(--border-focus);
+}
+
+.card-padding {
+  padding: 16px;
+}
+
+.card-padding-lg {
+  padding: 20px;
+}
+
+/* ── Stat cards ──────────────────────────────────────────── */
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat-card__label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.stat-card__value {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.stat-card__value--win    { color: var(--win); }
+.stat-card__value--loss   { color: var(--loss); }
+.stat-card__value--accent { color: var(--primary); }
+
+.stat-card__sub {
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+/* Primary bankroll card */
+.bankroll-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.bankroll-card__label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  letter-spacing: 0.03em;
+}
+
+.bankroll-card__value {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.bankroll-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.bankroll-card__profit {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.bankroll-card__profit--pos { color: var(--win); }
+.bankroll-card__profit--neg { color: var(--loss); }
+.bankroll-card__profit--zero { color: var(--text-secondary); }
+
+/* ── Stat grid ───────────────────────────────────────────── */
+.stat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 0 16px;
+}
+
+.stat-grid--3 {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+/* ── Buttons ─────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: var(--radius-md);
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background var(--transition), opacity var(--transition), transform var(--transition);
+  white-space: nowrap;
+  min-height: 48px;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn--primary {
+  background: var(--primary);
+  color: #fff;
+}
+
+.btn--primary:hover {
+  background: var(--primary-hover);
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--text-secondary);
+}
+
+.btn--ghost:hover {
+  background: var(--bg-card-hover);
+}
+
+.btn--danger {
+  background: var(--loss-dim);
+  color: var(--loss);
+}
+
+.btn--danger:hover {
+  background: rgba(239, 68, 68, 0.2);
+}
+
+.btn--sm {
+  padding: 8px 14px;
+  font-size: 13px;
+  min-height: 36px;
+  border-radius: var(--radius-sm);
+}
+
+.btn--full {
+  width: 100%;
+}
+
+.btn--icon {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: var(--radius-sm);
+  min-height: unset;
+}
+
+.btn--icon svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ── Forms ───────────────────────────────────────────────── */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  letter-spacing: 0.01em;
+}
+
+.form-label--required::after {
+  content: ' *';
+  color: var(--loss);
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-input);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: 15px;
+  font-weight: 400;
+  outline: none;
+  transition: border-color var(--transition), background var(--transition);
+  min-height: 48px;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.form-input::placeholder {
+  color: var(--text-tertiary);
+}
+
+.form-input:focus {
+  border-color: var(--border-focus);
+  background: var(--bg-card);
+}
+
+.form-input:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Number inputs: hide spinners */
+.form-input[type="number"]::-webkit-outer-spin-button,
+.form-input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.form-input[type="number"] { -moz-appearance: textfield; }
+
+/* Select */
+.form-select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 40px;
+  cursor: pointer;
+}
+
+/* Error state */
+.form-input--error {
+  border-color: var(--loss);
+}
+
+.form-error {
+  font-size: 12px;
+  color: var(--loss);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Inline two-column form row */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* ── Autocomplete dropdown ────────────────────────────────── */
+.autocomplete-wrapper {
+  position: relative;
+}
+
+.autocomplete-list {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  z-index: 500;
+  box-shadow: var(--shadow-modal);
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.autocomplete-list:empty {
+  display: none;
+}
+
+.autocomplete-item {
+  padding: 11px 14px;
+  font-size: 14px;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: background var(--transition);
+}
+
+.autocomplete-item:active,
+.autocomplete-item--focused {
+  background: var(--primary-dim);
+  color: var(--primary);
+}
+
+/* ── Status badge ────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+.badge--win {
+  background: var(--win-dim);
+  color: var(--win);
+}
+
+.badge--loss {
+  background: var(--loss-dim);
+  color: var(--loss);
+}
+
+.badge--pending {
+  background: var(--pending-dim);
+  color: var(--pending);
+}
+
+.badge--void {
+  background: var(--void-dim);
+  color: var(--void);
+}
+
+/* ── Status pill selector (for bet form) ─────────────────── */
+.status-selector {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.status-option {
+  padding: 10px 4px;
+  text-align: center;
+  border-radius: var(--radius-md);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  border: 1.5px solid var(--border);
+  background: var(--bg-input);
+  color: var(--text-secondary);
+  transition: all var(--transition);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.status-option--pending.status-option--active {
+  border-color: var(--pending);
+  background: var(--pending-dim);
+  color: var(--pending);
+}
+
+.status-option--win.status-option--active {
+  border-color: var(--win);
+  background: var(--win-dim);
+  color: var(--win);
+}
+
+.status-option--loss.status-option--active {
+  border-color: var(--loss);
+  background: var(--loss-dim);
+  color: var(--loss);
+}
+
+.status-option--void.status-option--active {
+  border-color: var(--void);
+  background: var(--void-dim);
+  color: var(--void);
+}
+
+/* ── Modal ───────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-overlay);
+  z-index: 600;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-md);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.modal-overlay--visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal-sheet {
+  width: 100%;
+  max-width: 480px;
+  background: var(--bg-card);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  border: 1px solid var(--border);
+  border-bottom: none;
+  box-shadow: var(--shadow-modal);
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(100%);
+  transition: transform var(--transition-md) cubic-bezier(0.32, 0.72, 0, 1);
+  /* Safe area for bottom of screen */
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.modal-overlay--visible .modal-sheet {
+  transform: translateY(0);
+}
+
+.modal-handle {
+  width: 36px;
+  height: 4px;
+  background: var(--border);
+  border-radius: var(--radius-full);
+  margin: 12px auto 0;
+  flex-shrink: 0;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px 0;
+  flex-shrink: 0;
+}
+
+.modal-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.modal-close {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  background: var(--bg-input);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background var(--transition);
+  border: none;
+  flex-shrink: 0;
+}
+
+.modal-close:active {
+  background: var(--border);
+}
+
+.modal-close svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.modal-body {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.modal-footer {
+  padding: 16px 20px;
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+  border-top: 1px solid var(--border);
+}
+
+/* ── Bankroll selector dropdown ──────────────────────────── */
+.bankroll-selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: border-color var(--transition), background var(--transition);
+  max-width: 220px;
+}
+
+.bankroll-selector:active {
+  border-color: var(--border-focus);
+  background: var(--bg-card-hover);
+}
+
+.bankroll-selector__name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bankroll-selector__chevron {
+  color: var(--text-tertiary);
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform var(--transition);
+}
+
+.bankroll-selector--open .bankroll-selector__chevron {
+  transform: rotate(180deg);
+}
+
+/* Bankroll switcher modal list */
+.bankroll-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.bankroll-list-item {
+  display: flex;
+  align-items: center;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background var(--transition);
+  gap: 12px;
+}
+
+.bankroll-list-item:active {
+  background: var(--primary-dim);
+}
+
+.bankroll-list-item--active {
+  background: var(--primary-dim);
+}
+
+.bankroll-list-item__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.bankroll-list-item__name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bankroll-list-item__meta {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  margin-top: 1px;
+}
+
+.bankroll-list-item__check {
+  width: 20px;
+  height: 20px;
+  color: var(--primary);
+  flex-shrink: 0;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.bankroll-list-item__delete {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  color: var(--text-tertiary);
+  transition: color var(--transition), background var(--transition);
+  flex-shrink: 0;
+}
+
+.bankroll-list-item__delete:active {
+  color: var(--loss);
+  background: var(--loss-dim);
+}
+
+.bankroll-list-item__delete svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ── Bet card (history list item) ────────────────────────── */
+.bet-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: border-color var(--transition);
+}
+
+.bet-card:active {
+  border-color: var(--border-focus);
+}
+
+.bet-card__header {
+  display: flex;
+  align-items: center;
+  padding: 13px 14px;
+  gap: 12px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.bet-card__status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.bet-card__status-dot--win     { background: var(--win); }
+.bet-card__status-dot--loss    { background: var(--loss); }
+.bet-card__status-dot--pending { background: var(--pending); }
+.bet-card__status-dot--void    { background: var(--void); }
+
+.bet-card__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.bet-card__title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bet-card__meta {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 1px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bet-card__right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.bet-card__amount {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.bet-card__amount--win  { color: var(--win); }
+.bet-card__amount--loss { color: var(--loss); }
+
+.bet-card__odds {
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+/* Expanded bet detail */
+.bet-card__detail {
+  display: none;
+  padding: 0 14px 14px;
+  border-top: 1px solid var(--border);
+  margin-top: 0;
+}
+
+.bet-card--expanded .bet-card__detail {
+  display: block;
+}
+
+.bet-card__detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 12px 0;
+}
+
+.bet-card__detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.bet-card__detail-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.bet-card__detail-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.bet-card__actions {
+  display: flex;
+  gap: 8px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+
+/* ── Toast / Snackbar ────────────────────────────────────── */
+.toast-container {
+  position: fixed;
+  bottom: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px) + 16px);
+  left: 16px;
+  right: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 800;
+  pointer-events: none;
+}
+
+.toast {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: var(--shadow-toast);
+  pointer-events: all;
+  max-width: 360px;
+  width: 100%;
+  transform: translateY(16px);
+  opacity: 0;
+  transition: transform var(--transition-md) cubic-bezier(0.32, 0.72, 0, 1),
+              opacity var(--transition-md);
+}
+
+.toast--visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.toast__message {
+  flex: 1;
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.toast__action {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--primary);
+  cursor: pointer;
+  padding: 4px;
+  flex-shrink: 0;
+}
+
+/* ── Filter chips ────────────────────────────────────────── */
+.filter-bar {
+  display: flex;
+  gap: 6px;
+  padding: 12px 16px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.filter-bar::-webkit-scrollbar { display: none; }
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  border: 1.5px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  transition: all var(--transition);
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.filter-chip--active {
+  background: var(--primary-dim);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.filter-chip:active {
+  opacity: 0.7;
+}
+
+/* ── Settings list ───────────────────────────────────────── */
+.settings-section {
+  padding: 0 16px;
+  margin-bottom: 24px;
+}
+
+.settings-section-title {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  padding: 16px 0 8px;
+}
+
+.settings-list {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.settings-item {
+  display: flex;
+  align-items: center;
+  padding: 14px 16px;
+  gap: 12px;
+  cursor: pointer;
+  transition: background var(--transition);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.settings-item + .settings-item {
+  border-top: 1px solid var(--border);
+}
+
+.settings-item:active {
+  background: var(--bg-card-hover);
+}
+
+.settings-item__label {
+  flex: 1;
+  font-size: 15px;
+  color: var(--text-primary);
+}
+
+.settings-item__value {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.settings-item__chevron {
+  width: 16px;
+  height: 16px;
+  color: var(--text-tertiary);
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.settings-item--active .settings-item__label {
+  color: var(--primary);
+}
+
+.settings-item__check {
+  width: 18px;
+  height: 18px;
+  color: var(--primary);
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ── Segment control (theme picker) ──────────────────────── */
+.segment-control {
+  display: flex;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 3px;
+  gap: 2px;
+}
+
+.segment-option {
+  flex: 1;
+  padding: 8px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.segment-option--active {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+/* ── Chart container ─────────────────────────────────────── */
+.chart-container {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  margin: 0 16px;
+}
+
+.chart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.chart-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.02em;
+}
+
+.chart-canvas-wrapper {
+  position: relative;
+  height: 180px;
+}
+
+/* ── Recent bets section ─────────────────────────────────── */
+.recent-bets-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 16px 10px;
+}
+
+.recent-bets-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.02em;
+}
+
+.recent-bets-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0 16px;
+}
+
+/* ── Confirm dialog ──────────────────────────────────────── */
+.confirm-dialog {
+  text-align: center;
+  padding: 8px 0;
+}
+
+.confirm-dialog__icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.confirm-dialog__title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.confirm-dialog__message {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* ── No bankroll placeholder ──────────────────────────────── */
+.no-bankroll-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 48px 32px;
+  gap: 16px;
+  text-align: center;
+}
+
+.no-bankroll-prompt__title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.no-bankroll-prompt__sub {
+  font-size: 14px;
+  color: var(--text-secondary);
+  max-width: 260px;
+  line-height: 1.5;
+  }
