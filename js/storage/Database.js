@@ -175,4 +175,7 @@ class Database {
 
 // Singleton instance
 const instance = new Database();
+instance.transactionComplete = Database.transactionComplete;
+instance.promisify = Database.promisify;
+
 export default instance;
