@@ -1,7 +1,7 @@
 {
   "appId": "com.bettrack.app",
   "appName": "BetTrack",
-  "webDir": ".",
+  "webDir": "www",
   "bundledWebRuntime": false,
   "server": {
     "androidScheme": "https"
