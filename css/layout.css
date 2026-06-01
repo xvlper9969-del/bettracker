@@ -1,0 +1,266 @@
+/* ============================================================
+   layout.css — App shell, navigation, screen containers
+   ============================================================ */
+
+/* ── App shell ───────────────────────────────────────────── */
+#app {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: opacity 200ms ease;
+}
+
+/* ── Screen container ────────────────────────────────────── */
+.screen-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Each screen is absolutely positioned and shown/hidden */
+.screen {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  /* No transform animation — instant show/hide for performance */
+  transition: opacity var(--transition);
+}
+
+.screen--active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* ── Screen header ───────────────────────────────────────── */
+.screen-header {
+  flex-shrink: 0;
+  height: var(--header-height);
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-app);
+  /* Safe area top for Android status bar */
+  padding-top: env(safe-area-inset-top, 0px);
+  height: calc(var(--header-height) + env(safe-area-inset-top, 0px));
+}
+
+.screen-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.screen-action {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  transition: background var(--transition);
+}
+
+.screen-action:active {
+  background: var(--primary-dim);
+}
+
+/* ── Scrollable screen body ──────────────────────────────── */
+.screen-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  /* Bottom padding = nav height + safe area + FAB space */
+  padding-bottom: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px) + 80px);
+}
+
+/* Screen body without FAB overlap */
+.screen-body--no-fab {
+  padding-bottom: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px) + 20px);
+}
+
+/* ── Section spacing within screens ─────────────────────── */
+.screen-section {
+  padding: 20px 16px 0;
+}
+
+.screen-section + .screen-section {
+  padding-top: 16px;
+}
+
+/* ── Bottom navigation ───────────────────────────────────── */
+.bottom-nav {
+  flex-shrink: 0;
+  height: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px));
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  background: var(--bg-nav);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: stretch;
+  position: relative;
+  z-index: 100;
+}
+
+.nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px 4px;
+  color: var(--text-tertiary);
+  transition: color var(--transition);
+  position: relative;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nav-item:active {
+  opacity: 0.7;
+}
+
+.nav-item--active {
+  color: var(--primary);
+}
+
+/* Active indicator dot */
+.nav-item--active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 2px;
+  background: var(--primary);
+  border-radius: 0 0 2px 2px;
+}
+
+.nav-icon {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-icon svg {
+  width: 22px;
+  height: 22px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke var(--transition);
+}
+
+.nav-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  line-height: 1;
+}
+
+/* ── Floating Action Button ──────────────────────────────── */
+#fab {
+  position: fixed;
+  bottom: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px) + 16px);
+  right: 20px;
+  width: var(--fab-size);
+  height: var(--fab-size);
+  border-radius: var(--radius-full);
+  background: var(--primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-fab);
+  z-index: 200;
+  transition: transform var(--transition), background var(--transition), box-shadow var(--transition);
+  cursor: pointer;
+  border: none;
+}
+
+#fab:active {
+  transform: scale(0.93);
+  background: var(--primary-hover);
+}
+
+#fab svg {
+  width: 24px;
+  height: 24px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+/* ── Empty state ─────────────────────────────────────────── */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 32px;
+  gap: 12px;
+  text-align: center;
+}
+
+.empty-state__icon {
+  width: 48px;
+  height: 48px;
+  color: var(--text-tertiary);
+  opacity: 0.5;
+}
+
+.empty-state__icon svg {
+  width: 48px;
+  height: 48px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.5;
+}
+
+.empty-state__title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.empty-state__subtitle {
+  font-size: 13px;
+  color: var(--text-tertiary);
+  max-width: 240px;
+  line-height: 1.5;
+}
+
+/* ── Page section label ──────────────────────────────────── */
+.section-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  padding: 16px 16px 8px;
+}
+
+/* ── Divider ─────────────────────────────────────────────── */
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 0 16px;
+}
